@@ -23,16 +23,18 @@ public class NumberPublisher {
     private static final String DEFAULT_DESTINATION = "java:jboss/jms/topic/numbersTopic";
     private static final String INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";
     private static final String PROVIDER_URL = "http-remoting://127.0.0.1:8080";
+    private Session session;
+    private MessageProducer publisher;
 
     private Logger LOGGER = LoggerFactory.getLogger(NumberPublisher.class);
 
     /**
-     * pushes ano integers to a JMS topic
+     * Constructor to setup JMS connection
      *
-     * @return void
+     * @return New instance
      */
-    public boolean enqueueNumber(int number) {
-        LOGGER.debug("enqueueing number {}", number);
+    public NumberPublisher() {
+        LOGGER.info("Setting up JMS connection");
 
         Context namingContext = null;
 
@@ -56,18 +58,12 @@ public class NumberPublisher {
 
             try {
                 Connection connection = connectionFactory.createConnection();
-                LOGGER.info("Sending JMS message with content: " + number);
-                Session session = connection
+                session = connection
                         .createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-                final MessageProducer publisher =
+                publisher =
                         session.createProducer(destination);
                 connection.start();
-
-                final TextMessage message =
-                        session.createTextMessage(String.valueOf(number));
-                publisher.send(message);
-                LOGGER.info("enqueued number {}", number);
             } catch (JMSException jmse) {
                 LOGGER.error("Error sending JMS message", jmse);
             }
@@ -81,6 +77,23 @@ public class NumberPublisher {
                 } catch (NamingException ignore) {
                 }
             }
+        }
+    }
+
+    /**
+     * pushes ano integers to a JMS topic
+     *
+     * @return void
+     */
+    public boolean enqueueNumber(int number) {
+        LOGGER.debug("enqueueing number {}", number);
+        try {
+            final TextMessage message =
+                    session.createTextMessage(String.valueOf(number));
+            publisher.send(message);
+            LOGGER.info("enqueued number {}", number);
+        } catch (JMSException jmse) {
+            LOGGER.error("Error sending JMS message", jmse);
         }
 
         LOGGER.info("enqueued number {}", number);
