@@ -17,7 +17,7 @@ import java.util.List;
  */
 
 
-@WebService(targetNamespace = "http://www.walid.com/", serviceName = "gcdWebService")
+@WebService(name = "GCDService")
 public class GCDServiceIMpl implements GCDService, Serializable {
 
     private static Logger LOGGER = LoggerFactory.getLogger(GCDServiceIMpl.class);

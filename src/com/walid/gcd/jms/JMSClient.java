@@ -145,10 +145,12 @@ public class JMSClient {
     public List<Integer> synchConsume(int numberCount) {
         List<Integer> numbers = new ArrayList<>(numberCount);
 
-        LOGGER.debug("consuming {} numbers from topic", numberCount);
+        LOGGER.info("consuming {} numbers from topic", numberCount);
         for (int n = 0; n < numberCount; n++) {
             try {
-                numbers.add(Integer.parseInt(subscriber.receive().toString()));
+                String msg = ((TextMessage)subscriber.receive()).getText();
+                LOGGER.info("received message {}", msg);
+                numbers.add(Integer.parseInt(msg));
             } catch (JMSException jmse) {
                 LOGGER.error("Error consuming JMS message", jmse);
             }
