@@ -9,6 +9,7 @@ import javax.jms.JMSContext;
 import javax.jms.Topic;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A JMS subscriber that consumes numbers from topic on JBoss AS
@@ -39,7 +40,10 @@ public class NumberSubscriber {
             numbers.add(Integer.parseInt(context.createConsumer(syncTopic).receive().toString()));
         }
 
-        LOGGER.info("consumed {} numbers from topic", numberCount);
+        LOGGER.info("gcd() consumed {} from JMS numbers topic",
+                String.join(", ", numbers
+                        .stream()
+                        .map(n -> String.valueOf(n)).collect(Collectors.toList())));
         return numbers;
     }
 }
