@@ -18,7 +18,7 @@ import java.util.List;
 
 
 @WebService(name = "GCDService")
-public class GCDServiceIMpl implements GCDService, Serializable {
+public class GCDServiceIMpl implements GCDService {
 
     private static Logger LOGGER = LoggerFactory.getLogger(GCDServiceIMpl.class);
 
@@ -29,7 +29,7 @@ public class GCDServiceIMpl implements GCDService, Serializable {
      *
      * @return the GCD integer result
      */
-    private static int getGCD(int a, int b) {
+     int getGCD(int a, int b) {
         BigInteger b1 = BigInteger.valueOf(a);
         BigInteger b2 = BigInteger.valueOf(b);
         BigInteger gcd = b1.gcd(b2);
