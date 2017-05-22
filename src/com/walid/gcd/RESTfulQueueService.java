@@ -1,6 +1,6 @@
 package com.walid.gcd;
 
-import com.walid.gcd.jms.NumberPublisher;
+import com.walid.gcd.jms.JMSClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +59,9 @@ public class RESTfulQueueService implements Provider<Source> {
     private Source pushToQueue(int i1, int i2) {
         String status;
         //if (numberList.add(i1) && numberList.add(i2)) {
-        NumberPublisher jmsPublisher = new NumberPublisher();
+        JMSClient jmsPublisher = new JMSClient()
+                .asPublisher();
+
         if (jmsPublisher.enqueueNumber(i1) && jmsPublisher.enqueueNumber(i2)) {
             status = "<true/>";
         } else {
