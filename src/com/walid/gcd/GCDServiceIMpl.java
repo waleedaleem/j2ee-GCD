@@ -1,13 +1,12 @@
 package com.walid.gcd;
 
+import com.walid.gcd.jdbc.DbManager;
 import com.walid.gcd.jms.JMSClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.jws.WebService;
-import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,7 +28,7 @@ public class GCDServiceIMpl implements GCDService {
      *
      * @return the GCD integer result
      */
-     int getGCD(int a, int b) {
+    int getGCD(int a, int b) {
         BigInteger b1 = BigInteger.valueOf(a);
         BigInteger b2 = BigInteger.valueOf(b);
         BigInteger gcd = b1.gcd(b2);
@@ -56,7 +55,12 @@ public class GCDServiceIMpl implements GCDService {
         // calculate GCD
         int gcdNumber = getGCD(integers.get(0), integers.get(1));
 
-        //TODO: persist gcd result to database
+        // persist gcd result to H2 database
+        if (new DbManager().persistNumber(gcdNumber, DbManager.NumberTable.GCDS)) {
+            LOGGER.info("persisted GCD number {} to database", gcdNumber);
+        } else {
+            LOGGER.info("error persisting GCD number {} to database", gcdNumber);
+        }
 
         return gcdNumber;
     }
@@ -68,8 +72,8 @@ public class GCDServiceIMpl implements GCDService {
      */
     @Override
     public List<Integer> listGCDs() {
-        //TODO: Add database interface
-        return Arrays.asList(1, 2, 3);
+        DbManager dbManager = new DbManager();
+        return dbManager.retrieveNumbers(DbManager.NumberTable.GCDS);
     }
 
     /**

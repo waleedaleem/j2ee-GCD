@@ -1,5 +1,6 @@
 package com.walid.gcd;
 
+import com.walid.gcd.jdbc.DbManager;
 import com.walid.gcd.jms.JMSClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,9 +76,10 @@ public class RESTfulQueueService implements Provider<Source> {
      *
      * @return list of numbers in JSON format
      */
-    //TODO: Add database interface
     private Source listQueue() {
-        String jsonList = "[1, 2, 3]";
+
+        String jsonList = new DbManager().retrieveJsonNumbers(DbManager.NumberTable.NUMBERS);
+
         return new StreamSource(new StringReader(
                 String.format("<jsonlist>%s</jsonlist>", jsonList)
         ));
