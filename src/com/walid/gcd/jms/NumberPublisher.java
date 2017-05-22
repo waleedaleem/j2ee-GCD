@@ -31,9 +31,10 @@ public class NumberPublisher {
      *
      * @return void
      */
-    public void enqueueNumber(int number) {
+    public boolean enqueueNumber(int number) {
         LOGGER.debug("enqueueing number {}", number);
         context.createProducer().send(syncTopic, number);
         LOGGER.info("enqueued number {}", number);
+        return true;
     }
 }

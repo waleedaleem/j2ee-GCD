@@ -9,12 +9,25 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * A SOAP JAX-WS web service implementation bean
+ *
+ * @author waleedaleem@hotmail.com
+ */
+
 
 @WebService(targetNamespace = "http://www.walid.com/", serviceName = "gcdWebService")
 public class GCDServiceIMpl implements GCDService, Serializable {
 
     private static Logger LOGGER = LoggerFactory.getLogger(GCDServiceIMpl.class);
 
+    /**
+     * consumes two integers from a JMS queue
+     * calculates the GCD
+     * persists result to database
+     *
+     * @return the GCD integer result
+     */
     private static int getGCD(int a, int b) {
         BigInteger b1 = BigInteger.valueOf(a);
         BigInteger b2 = BigInteger.valueOf(b);
