@@ -6,4 +6,9 @@
             name='gcd'
             implementation='com.walid.gcd.GCDServiceIMpl'
             url-pattern='/gcd'/>
+
+    <endpoint
+            name='queue'
+            implementation='com.walid.gcd.RESTfulQueueService'
+            url-pattern='/queue/*'/>
 </endpoints>
