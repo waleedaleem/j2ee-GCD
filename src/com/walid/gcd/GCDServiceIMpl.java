@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import javax.jws.WebService;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -56,5 +57,26 @@ public class GCDServiceIMpl implements GCDService, Serializable {
         //TODO: persist gcd result to database
 
         return gcdNumber;
+    }
+
+    /**
+     * list GCD integers from database
+     *
+     * @return list of GDC numbers
+     */
+    @Override
+    public List<Integer> listGCDs() {
+        //TODO: Add database interface
+        return Arrays.asList(1, 2, 3);
+    }
+
+    /**
+     * returns sum of GCD from database
+     *
+     * @return sum of GCD numbers from database
+     */
+    @Override
+    public int sumGCDs() {
+        return listGCDs().stream().reduce(0, (x, y) -> x + y);
     }
 }

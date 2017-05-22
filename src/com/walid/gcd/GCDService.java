@@ -2,6 +2,7 @@ package com.walid.gcd;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import java.util.List;
 
 /**
  * A SOAP JAX-WS web service interface
@@ -27,14 +28,14 @@ public interface GCDService {
 	 *
 	 * @return list of numbers in JSON format
 	 */
-	//@WebMethod
-	//List<Integer> listGCDs();
+	@WebMethod
+	List<Integer> listGCDs();
 
 	/**
 	 * returns sum of GCD from database
 	 *
 	 * @return list of numbers in JSON format
 	 */
-	//@WebMethod
-	//int sumGCDs();
+	@WebMethod
+	int sumGCDs();
 }

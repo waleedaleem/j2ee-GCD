@@ -57,9 +57,7 @@ public class RESTfulQueueService implements Provider<Source> {
      * @return "true" or "false" as status
      */
     private Source pushToQueue(int i1, int i2) {
-
         String status;
-
         //if (numberList.add(i1) && numberList.add(i2)) {
         NumberPublisher jmsPublisher = new NumberPublisher();
         if (jmsPublisher.enqueueNumber(i1) && jmsPublisher.enqueueNumber(i2)) {
@@ -71,10 +69,11 @@ public class RESTfulQueueService implements Provider<Source> {
     }
 
     /**
-     * list JMS queue number contents
+     * list numbers enqueued in JMS topic from database
      *
      * @return list of numbers in JSON format
      */
+    //TODO: Add database interface
     private Source listQueue() {
         String jsonList = "[1, 2, 3]";
         return new StreamSource(new StringReader(
