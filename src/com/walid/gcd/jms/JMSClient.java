@@ -35,9 +35,7 @@ public class JMSClient {
     private Logger LOGGER = LoggerFactory.getLogger(JMSClient.class);
 
     /**
-     * Constructor to setup JMS connection
-     *
-     * @return New instance
+     * Constructor to setup JMS connection.
      */
     public JMSClient() {
         LOGGER.info("Setting up JMS connection");

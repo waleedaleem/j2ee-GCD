@@ -37,12 +37,10 @@ public class DbManager {
     Connection connection;
 
     // enum of the two queue-like table types hosting numbers and calculated GCDs
-    public enum NumberTable { NUMBERS, GCDS };
+    public enum NumberTable { NUMBERS, GCDS }
 
     /**
      * Constructor to setup JDBC connection
-     *
-     * @return New instance
      */
     public DbManager() {
         LOGGER.info("Setting up JDBC connection");
@@ -65,9 +63,9 @@ public class DbManager {
             LOGGER.info("Attempting to acquire a datasource connection");
             connection = dataSource.getConnection();
         } catch (NamingException e) {
-            LOGGER.error("Error enqueueing number", e);
+            LOGGER.error("Naming error enqueueing number", e);
         } catch (SQLException sqe) {
-            LOGGER.error("Error enqueueing number", sqe);
+            LOGGER.error("SQL error enqueueing number", sqe);
         } finally {
             if (namingContext != null) {
                 try {
@@ -108,7 +106,7 @@ public class DbManager {
                     rs.close();
                 if (stmt != null)
                     stmt.close();
-            } catch (Exception e){}
+            } catch (Exception ignore){}
         }
         return list;
     }
@@ -119,10 +117,7 @@ public class DbManager {
         String insertStatement = String.format("INSERT INTO %s(num) VALUES(%d)",
                 numberTable.name(), number);
         List result = processStatement(insertStatement);
-        if(!result.isEmpty() && (int)result.get(0) == 1) {
-            return true;
-        }
-        return false;
+        return !result.isEmpty() && (int) result.get(0) == 1;
     }
 
     public List<Integer> retrieveNumbers(NumberTable numberTable) {
