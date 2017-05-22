@@ -22,6 +22,10 @@ public class NumberPublisher {
 
     @Inject
     private JMSContext context;
+
+    @Inject
+    private EnqueueComplitionListener enqueueComplitionListener;
+
     @Resource(mappedName = NumbersTopicDefinition.NUMBERS_TOPIC)
     private Topic syncTopic;
 
@@ -33,7 +37,11 @@ public class NumberPublisher {
      */
     public boolean enqueueNumber(int number) {
         LOGGER.debug("enqueueing number {}", number);
-        context.createProducer().send(syncTopic, number);
+
+        context.createProducer()
+                .setAsync(enqueueComplitionListener)
+                .send(syncTopic, number);
+
         LOGGER.info("enqueued number {}", number);
         return true;
     }

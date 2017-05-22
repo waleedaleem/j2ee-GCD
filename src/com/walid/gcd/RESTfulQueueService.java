@@ -69,7 +69,7 @@ public class RESTfulQueueService implements Provider<Source> {
         }
         return new StreamSource(new StringReader(status));
     }
-    
+
     /**
      * list JMS queue number contents
      *
